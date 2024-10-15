@@ -1,27 +1,26 @@
 #!/usr/bin/python3
+"""Pascal Triangle"""
+
 
 def pascal_triangle(n):
-    """Generate Pascal's triangle up to the nth row."""
+    """returns a pascal triangle of n rows"""
     if n <= 0:
         return []
-    
-    triangle = []
+
+    pascal = [0] * n
 
     for i in range(n):
-        # Start each row with a 1
-        row = [1] * (i + 1)
-        # Calculate the values for the internal elements (if any)
+        # include the first row
+        nrow = [0] * (i+1)
+        nrow[0] = 1
+        nrow[len(nrow) - 1] = 1
+
         for j in range(1, i):
-            row[j] = triangle[i-1][j-1] + triangle[i-1][j]
-        # Add the completed row to the triangle
-        triangle.append(row)
-    return triangle
+            if j > 0 and j < len(nrow):
+                a = pascal[i - 1][j]
+                b = pascal[i - 1][j - 1]
+                nrow[j] = a + b
 
-def print_triangle(triangle):
-    """Print the row"""
-    for row in triangle:
-        print("[{}]".format("\n".join([str(x) for x in row])))
+        pascal[i] = nrow
 
-# Testing the function
-if __name__ == "__main__":
-    print(pascal_triangle(5))
+    return pascal
